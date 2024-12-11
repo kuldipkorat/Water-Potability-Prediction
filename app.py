@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-# from sklearn.preprocessing import StandardScaler
-# import seaborn as sns
-# import matplotlib.pyplot as plt
+
+#project title
+st.title("Water Potability Prediction")
 
 # Load the saved model and scaler
 model = joblib.load('water_potability_model.pkl')

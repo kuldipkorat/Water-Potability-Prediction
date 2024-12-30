@@ -1,14 +1,16 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 
-#project title
+# Project Title
 st.title("Water Potability Prediction")
 
-# Load the saved model and scaler
-model = joblib.load('water_potability_model.pkl')
-scaler = joblib.load('scaler.pkl')
+# Load the saved model
+try:
+    model = joblib.load('water_potability_model.pkl')
+except FileNotFoundError:
+    st.error("Model file not found. Please ensure 'water_potability_model.pkl' is in the same directory.")
+    st.stop()
 
 # Streamlit user inputs
 ph = st.slider("pH", 4.0, 10.0, 7.0)
@@ -34,18 +36,29 @@ input_data = pd.DataFrame({
     'Turbidity': [turbidity]
 })
 
-# Scale the input data using the fitted scaler
-input_data_scaled = scaler.transform(input_data)
+# Display input data
+st.write("### Input Data")
+st.write(input_data)
 
 # Make predictions
-prediction = model.predict(input_data_scaled)
-probability = model.predict_proba(input_data_scaled)[:, 1]
+try:
+    prediction = model.predict(input_data)
+    probability = model.predict_proba(input_data)[:, 1]
+except Exception as e:
+    st.error(f"Error making predictions: {e}")
+    st.stop()
 
-st.write(prediction)
 # Display results
-if prediction == 1:
-    st.write(f"**Prediction**: The water is **Potable**")
+st.write("### Prediction Results")
+if prediction[0] == 1:
+    st.success(f"**Prediction**: The water is **Potable**")
 else:
-    st.write(f"**Prediction**: The water is **Not Potable**")
+    st.error(f"**Prediction**: The water is **Not Potable**")
 
 st.write(f"**Probability of Potability**: {probability[0]:.2f}")
+
+# Debugging Output (Optional - for Developers)
+if st.checkbox("Show Debugging Information"):
+    st.write("### Debugging Information")
+    st.write(f"Prediction: {prediction}")
+    st.write(f"Probability: {probability}")

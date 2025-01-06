@@ -42,7 +42,7 @@ The dataset consists of water quality parameters with the following features:
 - **Features**: pH, Hardness, Solids, Chloramines, Sulfate, Conductivity, Organic Carbon, Trihalomethanes, Turbidity.
 - **Target**: Potability (0 = Not Potable, 1 = Potable).
 
-**Source**: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) (or specify another source if applicable).
+**Source**: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php).
 
 ---
 
